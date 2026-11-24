@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>평택초 4학년 2반 | 삼다수반 편의점 키오스크</title>
+  
+  <!-- 구글 폰트: 주아(Jua), 프리텐다드/노토산스 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- html2canvas 라이브러리: 영수증 사진(이미지) 저장 지원 -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            jua: ['Jua', 'sans-serif'],
+            sans: ['Noto Sans KR', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              300: '#7dd3fc',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+            },
+            wood: {
+              light: '#fde68a',
+              board: '#f59e0b',
+              dark: '#b45309',
+            }
+          },
+          boxShadow: {
+            'jelly': '0 8px 0 0 rgba(2, 132, 199, 0.4)',
+            'jelly-amber': '0 8px 0 0 rgba(217, 119, 6, 0.5)',
+            'jelly-green': '0 8px 0 0 rgba(16, 185, 129, 0.4)',
+            'shelf': '0 12px 20px -5px rgba(0, 0, 0, 0.25), 0 6px 0 0 #b45309',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      word-break: keep-all; /* 모바일에서 한글 단어 중간 줄바꿈 방지 */
+    }
+    .font-jua {
+      font-family: 'Jua', sans-serif;
+    }
+    .break-keep {
+      word-break: keep-all;
+    }
+    /* 귀여운 물방울 애니메이션 */
+    @keyframes floatDrop {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(3deg); }
+    }
+    .animate-float {
+      animation: floatDrop 3s ease-in-out infinite;
+    }
+    /* 편의점 매대 선반 3D 입체 효과 */
+    .store-shelf {
+      background: linear-gradient(180deg, #fef3c7 0%, #fde68a 85%, #d97706 100%);
+      box-shadow: 0 14px 0 #b45309, 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+    .shelf-item-shadow {
+      filter: drop-shadow(0 6px 8px rgba(180, 83, 9, 0.25));
+    }
+    /* 마스킹 PIN 애니메이션 점 */
+    .pin-dot {
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .pin-dot.filled {
+      background-color: #0284c7;
+      transform: scale(1.15);
+      box-shadow: 0 0 10px rgba(14, 165, 233, 0.6);
+    }
+    /* 모달 스크롤바 */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-sky-100 via-sky-50 to-blue-100 min-h-screen text-slate-800 flex flex-col justify-between">
+
+  <!-- ================= TOP HEADER ================= -->
+  <header class="bg-white/95 backdrop-blur shadow-md border-b-4 border-sky-300 sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto px-2.5 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between gap-1 sm:gap-3">
+      
+      <!-- 학급 로고 및 명칭 -->
+      <div class="flex items-center gap-2 sm:gap-3 cursor-pointer flex-shrink-0" onclick="goHome()">
+        <!-- 삼다수반 물방울 마스코트 -->
+        <div class="w-9 h-9 sm:w-12 sm:h-12 bg-sky-400 rounded-full flex items-center justify-center text-white text-lg sm:text-2xl shadow-md border-2 border-white animate-float relative flex-shrink-0">
+          💧
+          <span class="absolute -top-1 -right-1 text-[10px] sm:text-xs">✨</span>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-1 sm:gap-2">
+            <span class="bg-sky-500 text-white text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded-full whitespace-nowrap">평택초 4-2</span>
+            <span class="text-[10px] sm:text-xs text-sky-600 font-bold tracking-tight sm:tracking-wide whitespace-nowrap hidden sm:inline">맑고 깨끗한 우리반</span>
+          </div>
+          <h1 class="text-base sm:text-2xl font-jua text-sky-800 tracking-normal flex items-center gap-1 whitespace-nowrap">
+            삼다수반 편의점 <span class="text-[9px] sm:text-xs bg-amber-400 text-amber-950 px-1 sm:px-2 py-0.5 rounded-md font-sans font-bold">KIOSK</span>
+          </h1>
+        </div>
+      </div>
+
+      <!-- 우측 상단: 학생 상태 / 로그인 / 관리자 버튼 -->
+      <div class="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
+        <!-- 로그인 안 된 상태 -->
+        <div id="header-guest-view" class="flex items-center gap-1 sm:gap-2">
+          <button onclick="openStudentLoginModal()" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-xl sm:rounded-2xl font-jua text-xs sm:text-base shadow transition active:scale-95 flex items-center gap-1 whitespace-nowrap">
+            <span>🙋</span> <span>학생 로그인</span>
+          </button>
+          <button onclick="openStudentRegisterModal()" class="px-2 sm:px-3 py-1.5 sm:py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl sm:rounded-2xl font-jua text-xs sm:text-base shadow transition active:scale-95 flex items-center gap-1 whitespace-nowrap">
+            <span>✨</span> <span class="hidden xs:inline">처음 왔어요</span><span class="xs:hidden">가입</span>
+          </button>
+        </div>
+
+        <!-- 로그인 된 상태 -->
+        <div id="header-student-view" class="hidden flex items-center gap-1 sm:gap-2">
+          <div class="bg-sky-50 border border-sky-300 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl sm:rounded-2xl flex items-center gap-1 sm:gap-2 shadow-inner">
+            <span class="text-base sm:text-xl">🎒</span>
+            <div>
+              <div class="text-[10px] sm:text-xs font-bold text-sky-700 leading-tight whitespace-nowrap">
+                <span id="header-student-name">학생</span>님
+              </div>
+              <div class="text-xs sm:text-sm font-jua text-sky-900 flex items-center gap-0.5 whitespace-nowrap">
+                <span>내 워터:</span>
+                <span class="text-sky-600 font-bold" id="header-student-water">0</span>
+                <span class="text-[10px] sm:text-xs text-sky-500">💧</span>
+              </div>
+            </div>
+          </div>
+          <!-- 장바구니 열기 버튼 -->
+          <button onclick="openCartModal()" class="relative px-2 sm:px-3 py-1.5 sm:py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl sm:rounded-2xl font-jua text-xs sm:text-base shadow transition active:scale-95 flex items-center gap-1 whitespace-nowrap">
+            <span>🛒</span>
+            <span class="hidden sm:inline">장바구니</span>
+            <span id="header-cart-count" class="bg-red-500 text-white text-[10px] sm:text-xs font-bold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center -ml-0.5 border border-white">0</span>
+          </button>
+          <!-- 학생 로그아웃 -->
+          <button onclick="logoutStudent()" title="로그아웃" class="p-1.5 sm:p-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold transition active:scale-95">
+            ✕
+          </button>
+        </div>
+
+        <!-- 관리자 모드 버튼 -->
+        <button onclick="openAdminAuthModal()" class="px-2 py-1.5 sm:px-2.5 sm:py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold shadow flex items-center gap-1 transition active:scale-95 whitespace-nowrap flex-shrink-0" title="담임선생님 관리자 모드">
+          <span>🔒</span>
+          <span class="hidden md:inline">관리자</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-5 flex-1 w-full">
+
+    <!-- 배너 알림 / 환영 바 -->
+    <div class="bg-gradient-to-r from-sky-400 via-sky-300 to-blue-400 rounded-2xl sm:rounded-3xl p-3 sm:p-4 mb-4 sm:mb-6 shadow-md border-2 border-white flex flex-col sm:flex-row items-start sm:items-center justify-between text-white relative overflow-hidden gap-2 sm:gap-3">
+      <div class="z-10 flex items-center gap-2.5 sm:gap-3 min-w-0">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-xl sm:rounded-2xl flex items-center justify-center text-2xl sm:text-3xl flex-shrink-0">
+          🏪
+        </div>
+        <div class="min-w-0">
+          <h2 class="font-jua text-base sm:text-2xl text-sky-950 drop-shadow-sm whitespace-nowrap">
+            어서오세요! 삼다수반 편의점입니다 💧
+          </h2>
+          <p class="text-[11px] sm:text-sm text-sky-900 font-medium break-keep leading-snug">
+            바른 행동과 칭찬으로 모은 <strong class="text-blue-950 underline decoration-wavy">학급 코인 '워터'</strong>로 원하는 상품을 구매해보세요!
+          </p>
+        </div>
+      </div>
+      <!-- 알림 팁 -->
+      <div class="z-10 bg-white/30 backdrop-blur px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl sm:rounded-2xl text-[10px] sm:text-xs font-bold text-sky-950 flex items-center gap-1 border border-white/40 whitespace-nowrap flex-shrink-0">
+        <span>📢</span>
+        <span>터치하면 장바구니에 쏙 담겨요!</span>
+      </div>
+      <!-- 배경 물방울 장식 -->
+      <div class="absolute -right-6 -bottom-8 text-8xl opacity-15 select-none pointer-events-none">💧</div>
+    </div>
+
+    <!-- 편의점 카테고리 탭 -->
+    <div class="flex items-center justify-between flex-wrap gap-2 mb-3 sm:mb-4">
+      <div class="flex items-center gap-1 sm:gap-2 overflow-x-auto pb-1 max-w-full">
+        <button onclick="setCategory('ALL')" id="tab-ALL" class="category-tab px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl font-jua text-xs sm:text-base bg-sky-600 text-white shadow-md transition active:scale-95 whitespace-nowrap">
+          전체 보기 🌈
+        </button>
+        <button onclick="setCategory('SNACK')" id="tab-SNACK" class="category-tab px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl font-jua text-xs sm:text-base bg-white text-slate-700 hover:bg-sky-100 shadow transition active:scale-95 whitespace-nowrap">
+          달콤 간식 🍬
+        </button>
+        <button onclick="setCategory('STATIONERY')" id="tab-STATIONERY" class="category-tab px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl font-jua text-xs sm:text-base bg-white text-slate-700 hover:bg-sky-100 shadow transition active:scale-95 whitespace-nowrap">
+          알뜰 학용품 ✏️
+        </button>
+        <button onclick="setCategory('COUPON')" id="tab-COUPON" class="category-tab px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl font-jua text-xs sm:text-base bg-white text-slate-700 hover:bg-sky-100 shadow transition active:scale-95 whitespace-nowrap">
+          특별 쿠폰 🎫
+        </button>
+      </div>
+
+      <!-- 정렬/검색 간이 뱃지 -->
+      <div class="text-[11px] sm:text-xs font-bold text-sky-800 bg-sky-100/80 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-sky-200 whitespace-nowrap">
+        진열 상품: <span id="product-total-count" class="text-sky-600 font-extrabold">0</span>개
+      </div>
+    </div>
+
+    <!-- ================= 편의점 매대 진열장 (STORE SHELVES) ================= -->
+    <div class="relative bg-amber-50 rounded-2xl sm:rounded-3xl p-3 sm:p-6 border-4 border-amber-300 shadow-xl overflow-hidden mb-6">
+      
+      <!-- 매대 상단 간판 -->
+      <div class="w-full text-center mb-3 sm:mb-5">
+        <div class="inline-block bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-white font-jua text-sm sm:text-xl px-4 sm:px-6 py-1 sm:py-1.5 rounded-full shadow-md border-2 border-amber-200 whitespace-nowrap">
+          ✨ 4학년 2반 추천 상품 매대 ✨
+        </div>
+      </div>
+
+      <!-- 상품 카드 그리드: PC, 태블릿(가로/세로), 모바일 맞춤 반응형 레이아웃 -->
+      <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 relative z-10 min-h-[320px]">
+        <!-- JavaScript로 상품 카드 렌더링 -->
+      </div>
+
+      <!-- 매대 배경 우드 질감 바닥선 -->
+      <div class="absolute bottom-0 left-0 right-0 h-4 bg-amber-600 border-t-2 border-amber-400 opacity-60"></div>
+    </div>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-white/80 border-t border-sky-200 py-2 sm:py-3 text-center text-xs text-sky-700">
+    <div class="max-w-6xl mx-auto px-3 sm:px-4 flex flex-col sm:flex-row items-center justify-between gap-0.5 sm:gap-1">
+      <div class="flex items-center gap-1 font-medium text-[10px] sm:text-xs whitespace-nowrap">
+        <span>💧 평택초등학교 4학년 2반</span>
+        <span class="text-slate-300">|</span>
+        <span>맑고 깨끗한 자치 상점</span>
+      </div>
+      <div class="text-slate-400 text-[9px] sm:text-[11px] whitespace-nowrap">
+        화폐 단위: <strong>워터 (Water Coin)</strong> • 키오스크 모드
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MODALS & OVERLAYS ================= -->
+
+  <!-- 1. 학생 회원가입 모달 (첫 방문) -->
+  <div id="modal-student-register" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-md w-full p-4 sm:p-6 shadow-2xl border-4 border-emerald-300 transform transition-all relative max-h-[92vh] overflow-y-auto my-auto">
+      <button onclick="closeModal('modal-student-register')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
+      
+      <div class="text-center mb-3 sm:mb-4">
+        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-2xl sm:text-3xl mx-auto mb-1.5 sm:mb-2 shadow-inner">
+          🌱
+        </div>
+        <h3 class="font-jua text-xl sm:text-2xl text-slate-800 whitespace-nowrap">삼다수반 편의점 첫 등록</h3>
+        <p class="text-[11px] sm:text-xs text-slate-500 whitespace-nowrap">나만의 멋진 별명을 만들어보세요!</p>
+      </div>
+
+      <!-- [필수] 개인정보 보호 강력 경고 박스 (모바일 한글 단어 줄바꿈 최적화) -->
+      <div class="bg-rose-50 border-2 border-rose-300 rounded-2xl p-2.5 sm:p-3.5 mb-3 sm:mb-4 text-rose-800 text-[11px] sm:text-xs shadow-sm break-keep leading-snug">
+        <div class="flex items-center gap-1.5 font-bold text-rose-700 text-xs sm:text-sm mb-1 whitespace-nowrap">
+          <span>⚠️</span> <span>개인정보 보호 주의사항!</span>
+        </div>
+        <p>
+          닉네임과 비밀번호에는 <strong>실제 이름, 생년월일, 전화번호, 집 주소</strong> 등 개인정보를 <strong>절대 사용하지 마세요!</strong> 재미있는 별명으로 만들어주세요.
+        </p>
+      </div>
+
+      <form id="form-register" onsubmit="handleStudentRegister(event)" class="space-y-2.5 sm:space-y-3.5">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1 whitespace-nowrap">멋진 닉네임 (별명)</label>
+          <input type="text" id="reg-nickname" required maxlength="12" placeholder="예: 푸른물방울, 날쌘돌고래" 
+                 class="w-full px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl border-2 border-slate-200 focus:border-emerald-500 focus:outline-none text-xs sm:text-sm font-bold">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1 whitespace-nowrap">비밀번호 (숫자 4자리)</label>
+          <input type="password" id="reg-pin" required maxlength="4" pattern="[0-9]{4}" inputmode="numeric" placeholder="● ● ● ●" 
+                 class="w-full px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl border-2 border-slate-200 focus:border-emerald-500 focus:outline-none text-center text-base sm:text-lg tracking-widest font-bold">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1 whitespace-nowrap">비밀번호 확인 (한 번 더!)</label>
+          <input type="password" id="reg-pin-confirm" required maxlength="4" pattern="[0-9]{4}" inputmode="numeric" placeholder="● ● ● ●" 
+                 class="w-full px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl border-2 border-slate-200 focus:border-emerald-500 focus:outline-none text-center text-base sm:text-lg tracking-widest font-bold">
+        </div>
+
+        <button type="submit" class="w-full py-2.5 sm:py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-jua text-sm sm:text-lg rounded-2xl shadow-lg transition active:scale-95 flex items-center justify-center gap-1 mt-2 whitespace-nowrap">
+          <span>💧</span> 삼다수반 등록 완료!
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. 학생 로그인 모달 -->
+  <div id="modal-student-login" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-md w-full p-4 sm:p-6 shadow-2xl border-4 border-sky-300 transform transition-all relative max-h-[92vh] overflow-y-auto my-auto">
+      <button onclick="closeModal('modal-student-login')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
+
+      <div class="text-center mb-3 sm:mb-4">
+        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center text-2xl sm:text-3xl mx-auto mb-1.5 sm:mb-2 shadow-inner">
+          🎒
+        </div>
+        <h3 class="font-jua text-xl sm:text-2xl text-slate-800 whitespace-nowrap">학생 로그인</h3>
+        <p class="text-[11px] sm:text-xs text-slate-500 whitespace-nowrap">닉네임을 고르거나 입력하고 비밀번호를 눌러주세요</p>
+      </div>
+
+      <!-- 기존 등록된 학생 간편 선택 칩 -->
+      <div class="mb-3">
+        <label class="block text-xs font-bold text-slate-500 mb-1 whitespace-nowrap">내 닉네임 터치하기</label>
+        <div id="login-quick-students" class="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto p-1.5 bg-slate-50 rounded-xl border border-slate-200">
+          <!-- JS 렌더링 -->
+        </div>
+      </div>
+
+      <div class="space-y-2.5 sm:space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1 whitespace-nowrap">선택된 닉네임</label>
+          <input type="text" id="login-nickname" placeholder="닉네임을 위에서 고르거나 직접 입력" 
+                 class="w-full px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none text-xs sm:text-sm font-bold">
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="text-xs font-bold text-slate-700 whitespace-nowrap">비밀번호 (숫자 4자리)</label>
+            <span class="text-[11px] text-sky-600 font-semibold whitespace-nowrap" id="login-pin-count-hint">0 / 4자리</span>
+          </div>
+          <!-- 마스킹 표시 디스플레이 -->
+          <div class="flex justify-center gap-3 py-2 bg-slate-100 rounded-2xl border-2 border-slate-200 mb-2">
+            <span class="pin-dot w-4 h-4 rounded-full border-2 border-sky-400" id="dot-0"></span>
+            <span class="pin-dot w-4 h-4 rounded-full border-2 border-sky-400" id="dot-1"></span>
+            <span class="pin-dot w-4 h-4 rounded-full border-2 border-sky-400" id="dot-2"></span>
+            <span class="pin-dot w-4 h-4 rounded-full border-2 border-sky-400" id="dot-3"></span>
+          </div>
+        </div>
+
+        <!-- 터치형 키오스크 숫자 가상 키패드 -->
+        <div class="grid grid-cols-3 gap-2 pt-1">
+          <button type="button" onclick="keypadPress('1')" class="py-2.5 sm:py-3.5 bg-slate-100 hover:bg-sky-100 text-slate-800 font-jua text-lg sm:text-xl rounded-xl shadow-sm border border-slate-200 active:scale-95">1</button>
+          <button type="button" onclick="keypadPress('2')" class="py-2.5 sm:py-3.5 bg-slate-100 hover:bg-sky-100 text-slate-800 font-jua text-lg sm:text-xl rounded-xl shadow-sm border border-slate-200 active:scale-95">2</button>
+          <button type="button" onclick="keypadPress('3')" class="py-2.5 sm:py-3.5 bg-slate-100 hover:bg-sky-100 text-slate-800 font-jua text-lg sm:text-xl rounded-xl shadow-sm border border-slate-200 active:scale-95">3</button>
+          <button type="button" onclick="keypadPress('4')" class="py-2.5 sm:py-3.5 bg-slate-100 hover:bg-sky-100 text-slate-800 font-jua text-lg sm:text-xl rounded-xl shadow-sm border border-slate-200 active:scale-95">4</button>
+          <button type="button" onclick="keypadPress('5')" class="py-2.5 sm:py-3.5 bg-slate-100 hover:bg-sky-100 text-slate-800 font-jua text-lg sm:text-xl rounded-xl shadow-sm border border-slate-200 active:scale-95">5</button>
+          <button type="button" onclick="keypadPress('6')" class="py-2.5 sm:py-3.5 bg-slate-100 hover:bg-sky-100 text-slate-800 font-jua text-lg sm:text-xl rounded-xl shadow-sm border border-slate-200 active:scale-95">6</button>
+          <button type="button" onclick="keypadPress('7')" class="py-2.5 sm:py-3.5 bg-slate-100 hover:bg-sky-100 text-slate-800 font-jua text-lg sm:text-xl rounded-xl shadow-sm border border-slate-200 active:scale-95">7</button>
+          <button type="button" onclick="keypadPress('8')" class="py-2.5 sm:py-3.5 bg-slate-100 hover:bg-sky-100 text-slate-800 font-jua text-lg sm:text-xl rounded-xl shadow-sm border border-slate-200 active:scale-95">8</button>
+          <button type="button" onclick="keypadPress('9')" class="py-2.5 sm:py-3.5 bg-slate-100 hover:bg-sky-100 text-slate-800 font-jua text-lg sm:text-xl rounded-xl shadow-sm border border-slate-200 active:scale-95">9</button>
+          <button type="button" onclick="keypadClear()" class="py-2.5 sm:py-3.5 bg-rose-100 hover:bg-rose-200 text-rose-700 font-jua text-xs sm:text-sm rounded-xl shadow-sm border border-rose-200 active:scale-95 whitespace-nowrap">지우기</button>
+          <button type="button" onclick="keypadPress('0')" class="py-2.5 sm:py-3.5 bg-slate-100 hover:bg-sky-100 text-slate-800 font-jua text-lg sm:text-xl rounded-xl shadow-sm border border-slate-200 active:scale-95">0</button>
+          <button type="button" onclick="handleStudentLogin()" class="py-2.5 sm:py-3.5 bg-sky-500 hover:bg-sky-600 text-white font-jua text-xs sm:text-base rounded-xl shadow-sm active:scale-95 whitespace-nowrap">확인 💧</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 장바구니 및 결제 모달 -->
+  <div id="modal-cart" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-4 sm:p-6 shadow-2xl border-4 border-amber-300 transform transition-all relative max-h-[92vh] overflow-y-auto my-auto">
+      <button onclick="closeModal('modal-cart')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
+
+      <div class="flex items-center gap-2 mb-3 sm:mb-4">
+        <span class="text-2xl sm:text-3xl">🛒</span>
+        <div>
+          <h3 class="font-jua text-xl sm:text-2xl text-slate-800 whitespace-nowrap">내 장바구니</h3>
+          <p class="text-[11px] sm:text-xs text-slate-500 whitespace-nowrap">선택한 상품과 수량을 확인하세요</p>
+        </div>
+      </div>
+
+      <!-- 장바구니 목록 -->
+      <div id="cart-item-list" class="max-h-56 sm:max-h-60 overflow-y-auto space-y-2 mb-3 sm:mb-4 pr-1">
+        <!-- JS 렌더링 -->
+      </div>
+
+      <!-- 계산 요약 바 (모바일 줄바꿈 방지) -->
+      <div class="bg-amber-50 rounded-2xl p-3 sm:p-4 border-2 border-amber-200 space-y-1.5 sm:space-y-2 mb-3 sm:mb-4">
+        <div class="flex justify-between items-center text-slate-600 text-xs sm:text-sm whitespace-nowrap">
+          <span>내가 가진 워터:</span>
+          <span class="font-bold text-sky-600"><span id="cart-current-water">0</span> 워터 💧</span>
+        </div>
+        <div class="flex justify-between items-center text-slate-800 font-extrabold text-xs sm:text-base whitespace-nowrap">
+          <span>총 결제 금액:</span>
+          <span class="text-amber-600 font-jua text-base sm:text-xl"><span id="cart-total-water">0</span> 워터 💧</span>
+        </div>
+        <div class="border-t border-amber-200 pt-1.5 sm:pt-2 flex justify-between items-center text-xs sm:text-sm font-bold whitespace-nowrap">
+          <span>결제 후 남을 워터:</span>
+          <span id="cart-remain-water" class="text-emerald-700 text-xs sm:text-sm font-jua">0 워터</span>
+        </div>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="clearCart()" class="w-1/3 py-2.5 sm:py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-jua text-xs sm:text-base rounded-2xl transition active:scale-95 whitespace-nowrap">
+          전체 비우기
+        </button>
+        <button onclick="executePurchase()" class="w-2/3 py-2.5 sm:py-3 bg-amber-500 hover:bg-amber-600 text-white font-jua text-xs sm:text-lg rounded-2xl shadow-lg transition active:scale-95 flex items-center justify-center gap-1 whitespace-nowrap">
+          <span>💧</span> 워터로 결제하기!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 결제 영수증 팝업 (결제 성공 및 갤러리 사진 저장) -->
+  <div id="modal-receipt" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-md w-full p-4 sm:p-6 shadow-2xl border-4 border-emerald-400 relative text-center max-h-[94vh] overflow-y-auto my-auto">
+      <canvas id="confetti-canvas" class="absolute inset-0 pointer-events-none rounded-3xl z-10"></canvas>
+      
+      <div class="relative z-20">
+        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-2xl sm:text-3xl mx-auto mb-1.5 sm:mb-2 shadow">
+          🎉
+        </div>
+        <h3 class="font-jua text-xl sm:text-2xl text-slate-800 mb-0.5 whitespace-nowrap">구매 완료!</h3>
+        <p class="text-[11px] sm:text-xs text-emerald-600 font-bold mb-3 whitespace-nowrap">맛있게 먹고 유익하게 사용해요 ✨</p>
+
+        <!-- [사진으로 저장되는 실제 영수증 카드 영역: high-res 캡처 타깃] -->
+        <div id="receipt-capture-area" class="bg-white border-2 border-slate-300 rounded-2xl p-3.5 sm:p-5 text-left text-xs space-y-2.5 sm:space-y-3 mb-3 sm:mb-4 shadow-sm relative overflow-hidden" style="font-family: 'Noto Sans KR', sans-serif;">
+          
+          <!-- 삼다수반 워터마크 배경 장식 -->
+          <div class="absolute right-2 top-2 opacity-10 pointer-events-none select-none text-6xl">
+            💧
+          </div>
+
+          <!-- 상단 로고 & 타이틀 -->
+          <div class="text-center pb-2 border-b-2 border-dashed border-slate-300">
+            <div class="text-[10px] sm:text-[11px] font-bold text-sky-600 tracking-wide whitespace-nowrap">평택초등학교 4학년 2반</div>
+            <div class="font-jua text-lg sm:text-xl text-slate-800 tracking-wider whitespace-nowrap">삼다수반 편의점 영수증</div>
+            <div class="text-[9px] sm:text-[10px] text-slate-400 whitespace-nowrap">맑고 깨끗한 마음의 우리반 자치상점</div>
+          </div>
+
+          <!-- 거래 정보 메타데이터 -->
+          <div class="text-[10px] sm:text-[11px] text-slate-600 space-y-1 bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-100">
+            <div class="flex justify-between items-center whitespace-nowrap">
+              <span class="text-slate-400">구매 학생:</span>
+              <strong class="text-slate-800 font-bold text-xs" id="receipt-student-name">-</strong>
+            </div>
+            <div class="flex justify-between items-center whitespace-nowrap">
+              <span class="text-slate-400">구매 일시:</span>
+              <span id="receipt-datetime" class="font-medium">-</span>
+            </div>
+            <div class="flex justify-between items-center whitespace-nowrap">
+              <span class="text-slate-400">영수증 번호:</span>
+              <span id="receipt-order-no" class="font-mono text-[9px] sm:text-[10px] text-slate-500">SAMDA-20261123-0001</span>
+            </div>
+          </div>
+
+          <!-- 구매 물품 목록 -->
+          <div>
+            <div class="text-[10px] sm:text-[11px] font-bold text-slate-500 mb-1 flex justify-between border-b border-slate-200 pb-1 whitespace-nowrap">
+              <span>상품명 & 구매 수량</span>
+              <span>상태</span>
+            </div>
+            <div class="space-y-1.5 py-1 text-xs" id="receipt-items">
+              <!-- JS 렌더링 -->
+            </div>
+          </div>
+
+          <!-- 결제 금액 요약 -->
+          <div class="border-t-2 border-dashed border-slate-300 pt-2 space-y-1">
+            <div class="flex justify-between font-bold text-xs sm:text-sm text-slate-800 whitespace-nowrap">
+              <span>사용한 워터:</span>
+              <span class="text-rose-600 font-jua text-sm sm:text-base" id="receipt-used-water">-0 💧</span>
+            </div>
+            <div class="flex justify-between font-bold text-emerald-700 text-[11px] sm:text-xs whitespace-nowrap">
+              <span>남은 보유 워터:</span>
+              <span id="receipt-remain-water" class="font-jua text-xs sm:text-sm">0 💧</span>
+            </div>
+          </div>
+
+          <!-- 참 잘했어요 도장 및 바코드 -->
+          <div class="pt-2 border-t border-slate-200 flex items-center justify-between gap-2">
+            <div class="text-left flex-shrink-0">
+              <div class="inline-block tracking-[2px] font-mono text-[9px] sm:text-[10px] text-slate-400 font-bold whitespace-nowrap">||||| | |||| |||| || ||| |||||</div>
+              <div class="text-[8px] sm:text-[9px] text-slate-400 font-mono whitespace-nowrap">SAMDASOO-KIOSK-4-2</div>
+            </div>
+            <!-- 귀여운 도장 (한 줄 고정) -->
+            <div class="border-2 border-sky-400 text-sky-600 rounded-full px-2 sm:px-2.5 py-0.5 text-[10px] sm:text-xs font-jua font-bold rotate-[-5deg] bg-sky-50 shadow-sm flex items-center gap-1 whitespace-nowrap flex-shrink-0">
+              <span class="whitespace-nowrap">참 잘했어요!</span>
+              <span class="text-xs sm:text-sm">💧✨</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 버튼 영역: 사진 저장 & 완료 -->
+        <div class="space-y-2">
+          <!-- 사진(갤러리) 저장 버튼 (한 줄 유지) -->
+          <button id="btn-save-receipt-img" onclick="saveReceiptImage()" class="w-full py-2.5 sm:py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-jua text-xs sm:text-base rounded-2xl shadow-md transition active:scale-95 flex items-center justify-center gap-1.5 whitespace-nowrap">
+            <span class="text-base sm:text-xl">📸</span>
+            <span id="save-receipt-btn-text" class="whitespace-nowrap">영수증 사진 저장 (갤러리)</span>
+          </button>
+
+          <!-- 완료 / 닫기 버튼 -->
+          <button onclick="finishReceipt()" class="w-full py-2 sm:py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-jua text-xs sm:text-base rounded-2xl transition active:scale-95 flex items-center justify-center gap-1 whitespace-nowrap">
+            <span>🏠</span>
+            <span class="whitespace-nowrap">쇼핑 마치기 (홈으로)</span>
+          </button>
+        </div>
+
+        <!-- 자동 이동 안내 -->
+        <div class="text-[10px] sm:text-[11px] text-slate-400 mt-2 sm:mt-3 whitespace-nowrap" id="receipt-timer-notice">
+          <span id="receipt-countdown" class="font-bold text-sky-600">10</span>초 후 자동으로 홈 화면으로 이동합니다.
+          <span class="block text-[9px] sm:text-[10px] text-slate-400 whitespace-nowrap">(사진 저장을 누르면 자동으로 멈춰요)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 관리자 인증 모달 -->
+  <div id="modal-admin-auth" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-5 sm:p-6 shadow-2xl border-4 border-slate-700 relative text-center max-h-[92vh] overflow-y-auto my-auto">
+      <button onclick="closeModal('modal-admin-auth')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
+
+      <div class="w-12 h-12 sm:w-14 sm:h-14 bg-slate-800 text-white rounded-full flex items-center justify-center text-xl sm:text-2xl mx-auto mb-2 sm:mb-3 shadow">
+        🔒
+      </div>
+      <h3 class="font-jua text-xl sm:text-2xl text-slate-800 whitespace-nowrap">담임교사 관리자 모드</h3>
+      
+      <!-- [필수 요구사항] 자릿수 명시 표기 및 안내 (모바일 한 줄) -->
+      <div class="my-2.5 sm:my-3 bg-sky-50 border border-sky-200 rounded-xl p-2 sm:p-2.5 text-[11px] sm:text-xs text-sky-800 font-bold whitespace-nowrap">
+        📢 관리자 비밀번호 (6자리)를 입력하세요
+      </div>
+
+      <!-- 6자리 마스킹 도트 인디케이터 -->
+      <div class="flex justify-center gap-2.5 py-3 bg-slate-100 rounded-2xl border-2 border-slate-200 mb-3">
+        <span class="pin-dot w-4 h-4 rounded-full border-2 border-slate-600" id="admin-dot-0"></span>
+        <span class="pin-dot w-4 h-4 rounded-full border-2 border-slate-600" id="admin-dot-1"></span>
+        <span class="pin-dot w-4 h-4 rounded-full border-2 border-slate-600" id="admin-dot-2"></span>
+        <span class="pin-dot w-4 h-4 rounded-full border-2 border-slate-600" id="admin-dot-3"></span>
+        <span class="pin-dot w-4 h-4 rounded-full border-2 border-slate-600" id="admin-dot-4"></span>
+        <span class="pin-dot w-4 h-4 rounded-full border-2 border-slate-600" id="admin-dot-5"></span>
+      </div>
+
+      <!-- 관리자 전용 키패드 (태블릿 & 터치 최적화) -->
+      <div class="grid grid-cols-3 gap-2">
+        <button type="button" onclick="adminKeypadPress('1')" class="py-3 sm:py-3.5 bg-slate-100 hover:bg-slate-200 font-jua text-xl rounded-xl border active:scale-95">1</button>
+        <button type="button" onclick="adminKeypadPress('2')" class="py-3 sm:py-3.5 bg-slate-100 hover:bg-slate-200 font-jua text-xl rounded-xl border active:scale-95">2</button>
+        <button type="button" onclick="adminKeypadPress('3')" class="py-3 sm:py-3.5 bg-slate-100 hover:bg-slate-200 font-jua text-xl rounded-xl border active:scale-95">3</button>
+        <button type="button" onclick="adminKeypadPress('4')" class="py-3 sm:py-3.5 bg-slate-100 hover:bg-slate-200 font-jua text-xl rounded-xl border active:scale-95">4</button>
+        <button type="button" onclick="adminKeypadPress('5')" class="py-3 sm:py-3.5 bg-slate-100 hover:bg-slate-200 font-jua text-xl rounded-xl border active:scale-95">5</button>
+        <button type="button" onclick="adminKeypadPress('6')" class="py-3 sm:py-3.5 bg-slate-100 hover:bg-slate-200 font-jua text-xl rounded-xl border active:scale-95">6</button>
+        <button type="button" onclick="adminKeypadPress('7')" class="py-3 sm:py-3.5 bg-slate-100 hover:bg-slate-200 font-jua text-xl rounded-xl border active:scale-95">7</button>
+        <button type="button" onclick="adminKeypadPress('8')" class="py-3 sm:py-3.5 bg-slate-100 hover:bg-slate-200 font-jua text-xl rounded-xl border active:scale-95">8</button>
+        <button type="button" onclick="adminKeypadPress('9')" class="py-3 sm:py-3.5 bg-slate-100 hover:bg-slate-200 font-jua text-xl rounded-xl border active:scale-95">9</button>
+        <button type="button" onclick="adminKeypadClear()" class="py-3 sm:py-3.5 bg-rose-100 hover:bg-rose-200 text-rose-700 font-jua text-sm rounded-xl border active:scale-95">지우기</button>
+        <button type="button" onclick="adminKeypadPress('0')" class="py-3 sm:py-3.5 bg-slate-100 hover:bg-slate-200 font-jua text-xl rounded-xl border active:scale-95">0</button>
+        <button type="button" onclick="handleAdminLogin()" class="py-3 sm:py-3.5 bg-slate-800 hover:bg-slate-900 text-white font-jua text-base rounded-xl active:scale-95">입장</button>
+      </div>
+
+      <div class="mt-3 text-[11px] text-slate-400">
+        (초기 설정 비밀번호: 123456)
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 관리자 메인 대시보드 (Fullscreen / Modal) -->
+  <div id="modal-admin-dashboard" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-2 sm:p-4">
+    <div class="bg-white rounded-3xl max-w-5xl w-full h-[92vh] flex flex-col shadow-2xl border-4 border-slate-700 overflow-hidden">
+      
+      <!-- 대시보드 헤더 -->
+      <div class="bg-slate-800 text-white px-6 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">⚙️</span>
+          <div>
+            <h2 class="font-jua text-xl text-white">삼다수반 편의점 관리자 시스템</h2>
+            <p class="text-xs text-slate-300">상품 관리 • 학생 데이터 및 워터 코인 지급/회수</p>
+          </div>
+        </div>
+        <button onclick="closeModal('modal-admin-dashboard')" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-sm font-bold active:scale-95">
+          관리자 종료 ✕
+        </button>
+      </div>
+
+      <!-- 네비게이션 탭 -->
+      <div class="bg-slate-100 px-6 py-2 border-b border-slate-200 flex items-center gap-2 overflow-x-auto">
+        <button onclick="setAdminTab('products')" id="admin-tab-btn-products" class="admin-tab-btn px-4 py-2 rounded-xl font-jua text-sm bg-white text-sky-800 shadow-sm border border-slate-200">
+          📦 상품 및 재고 관리
+        </button>
+        <button onclick="setAdminTab('students')" id="admin-tab-btn-students" class="admin-tab-btn px-4 py-2 rounded-xl font-jua text-sm bg-slate-200 text-slate-700 hover:bg-white">
+          👥 학생 명부 및 워터 코인 관리
+        </button>
+        <button onclick="setAdminTab('logs')" id="admin-tab-btn-logs" class="admin-tab-btn px-4 py-2 rounded-xl font-jua text-sm bg-slate-200 text-slate-700 hover:bg-white">
+          📜 결제 내역 (로그)
+        </button>
+        <button onclick="setAdminTab('settings')" id="admin-tab-btn-settings" class="admin-tab-btn px-4 py-2 rounded-xl font-jua text-sm bg-slate-200 text-slate-700 hover:bg-white">
+          🔐 비밀번호 및 데이터 설정
+        </button>
+      </div>
+
+      <!-- 대시보드 본문 -->
+      <div class="p-6 overflow-y-auto flex-1 bg-slate-50">
+
+        <!-- [탭 1: 상품 관리] -->
+        <div id="admin-tab-products" class="admin-tab-content space-y-6">
+          <div class="flex justify-between items-center flex-wrap gap-2">
+            <div>
+              <h3 class="font-jua text-xl text-slate-800">등록된 편의점 상품 목록</h3>
+              <p class="text-xs text-slate-500">상품 가격(워터), 재고 수량을 실시간으로 관리합니다</p>
+            </div>
+            <button onclick="openProductEditModal(null)" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white font-jua text-sm rounded-xl shadow active:scale-95 flex items-center gap-1">
+              <span>+</span> 새 상품 등록
+            </button>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <table class="w-full text-left text-xs sm:text-sm">
+              <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                <tr>
+                  <th class="p-3">상품명</th>
+                  <th class="p-3">분류</th>
+                  <th class="p-3">가격 (워터)</th>
+                  <th class="p-3">재고 수량</th>
+                  <th class="p-3">상태</th>
+                  <th class="p-3 text-right">관리</th>
+                </tr>
+              </thead>
+              <tbody id="admin-product-table-body" class="divide-y divide-slate-100 font-medium">
+                <!-- JS 렌더링 -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- [탭 2: 학생 및 워터 코인 관리] -->
+        <div id="admin-tab-students" class="admin-tab-content hidden space-y-6">
+          <div class="flex justify-between items-center flex-wrap gap-2">
+            <div>
+              <h3 class="font-jua text-xl text-slate-800">학생 데이터 & 워터(학급 코인) 관리</h3>
+              <p class="text-xs text-slate-500">학생 비밀번호 변경, 정보 수정, 계정 삭제 및 코인 지급</p>
+            </div>
+            <!-- 학급 전체 일괄 지급 버튼 -->
+            <button onclick="promptBatchWaterReward()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-jua text-sm rounded-xl shadow active:scale-95 flex items-center gap-1">
+              <span>💧✨</span> 학급 전원 일괄 워터 지급
+            </button>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <table class="w-full text-left text-xs sm:text-sm">
+              <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                <tr>
+                  <th class="p-3">닉네임</th>
+                  <th class="p-3">보유 워터</th>
+                  <th class="p-3">빠른 코인 지급 / 회수</th>
+                  <th class="p-3">비밀번호 관리</th>
+                  <th class="p-3 text-right">계정 관리</th>
+                </tr>
+              </thead>
+              <tbody id="admin-student-table-body" class="divide-y divide-slate-100 font-medium">
+                <!-- JS 렌더링 -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- [탭 3: 결제 기록] -->
+        <div id="admin-tab-logs" class="admin-tab-content hidden space-y-4">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="font-jua text-xl text-slate-800">최근 구매 및 결제 기록</h3>
+              <p class="text-xs text-slate-500">학생들이 키오스크에서 구매한 실시간 내역입니다</p>
+            </div>
+            <button onclick="clearLogs()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-bold active:scale-95">
+              기록 비우기
+            </button>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div id="admin-log-list" class="divide-y divide-slate-100 max-h-96 overflow-y-auto text-xs sm:text-sm">
+              <!-- JS 렌더링 -->
+            </div>
+          </div>
+        </div>
+
+        <!-- [탭 4: 설정 및 백업] -->
+        <div id="admin-tab-settings" class="admin-tab-content hidden space-y-6 max-w-xl">
+          <!-- 관리자 비밀번호 변경 -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+            <h4 class="font-jua text-lg text-slate-800 mb-2">🔐 관리자 비밀번호 변경</h4>
+            <p class="text-xs text-slate-500 mb-4">관리자 모드 진입 시 사용하는 6자리 비밀번호를 변경합니다.</p>
+            
+            <form onsubmit="handleAdminPasswordChange(event)" class="space-y-3">
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">현재 비밀번호 (6자리)</label>
+                <input type="password" id="admin-pwd-current" maxlength="6" required class="w-full px-3 py-2 border rounded-xl text-sm font-bold">
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-600 mb-1">새 비밀번호 (6자리)</label>
+                <input type="password" id="admin-pwd-new" maxlength="6" pattern="[0-9]{6}" required placeholder="숫자 6자리 입력" class="w-full px-3 py-2 border rounded-xl text-sm font-bold">
+              </div>
+              <button type="submit" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white font-jua text-sm rounded-xl">
+                비밀번호 저장하기
+              </button>
+            </form>
+          </div>
+
+          <!-- 데이터 백업 및 리셋 -->
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+            <h4 class="font-jua text-lg text-slate-800">💾 데이터 백업 및 복원</h4>
+            <p class="text-xs text-slate-500">학생 명부, 잔액, 상품 목록을 백업 파일로 보관하거나 복원할 수 있습니다.</p>
+            
+            <div class="flex flex-wrap gap-2 pt-2">
+              <button onclick="exportDataJSON()" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white font-jua text-sm rounded-xl">
+                📥 데이터 백업 (JSON 다운로드)
+              </button>
+              <label class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-jua text-sm rounded-xl cursor-pointer">
+                📤 백업 파일 복원 (JSON)
+                <input type="file" id="import-json-file" accept=".json" onchange="importDataJSON(event)" class="hidden">
+              </label>
+              <button onclick="resetToInitialData()" class="px-4 py-2 bg-rose-500 hover:bg-rose-600 text-white font-jua text-sm rounded-xl">
+                ⚠️ 초기 데모 데이터로 리셋
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 7. 상품 등록/수정 모달 (관리자용) -->
+  <div id="modal-product-edit" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl border-4 border-sky-400 relative max-h-[92vh] overflow-y-auto my-auto">
+      <button onclick="closeModal('modal-product-edit')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
+
+      <h3 id="product-modal-title" class="font-jua text-2xl text-slate-800 mb-4">상품 등록</h3>
+
+      <form onsubmit="handleProductSave(event)" class="space-y-3.5">
+        <input type="hidden" id="edit-prod-id">
+        
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">상품 이름</label>
+          <input type="text" id="edit-prod-name" required placeholder="예: 뽀로로 비타민, 자리선택권" class="w-full px-3 py-2 border-2 border-slate-200 rounded-xl text-sm font-bold focus:border-sky-500 focus:outline-none">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">분류</label>
+            <select id="edit-prod-category" class="w-full px-3 py-2 border-2 border-slate-200 rounded-xl text-sm font-bold focus:border-sky-500 focus:outline-none">
+              <option value="SNACK">간식 🍬</option>
+              <option value="STATIONERY">학용품 ✏️</option>
+              <option value="COUPON">특별쿠폰 🎫</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">아이콘/이모지</label>
+            <input type="text" id="edit-prod-icon" required maxlength="4" placeholder="예: 🍬, ✏️, 🎫, 💧" class="w-full px-3 py-2 border-2 border-slate-200 rounded-xl text-center text-lg font-bold">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">가격 (워터 코인)</label>
+            <input type="number" id="edit-prod-price" required min="1" max="999" placeholder="3" class="w-full px-3 py-2 border-2 border-slate-200 rounded-xl text-sm font-bold">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">재고 수량 (개)</label>
+            <input type="number" id="edit-prod-stock" required min="0" max="999" placeholder="10" class="w-full px-3 py-2 border-2 border-slate-200 rounded-xl text-sm font-bold">
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-sky-500 hover:bg-sky-600 text-white font-jua text-lg rounded-2xl shadow transition active:scale-95">
+          저장하기 💾
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    /* ====================================================
+       1. WEB AUDIO API SYNTHESIZER (효과음)
+       외부 mp3 파일 없이 브라우저 내장 신디사이저로 귀여운 사운드 구현
+       ==================================================== */
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // 퐁당/뾱 물방울 소리
+    function playPop() {
+      try {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(450, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.12);
+      } catch (e) {}
+    }
+
+    // 워터 코인 소리 (반짝 띠링)
+    function playCoinSound() {
+      try {
+        initAudio();
+        const now = audioCtx.currentTime;
+        [987.77, 1318.51].forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+          gain.gain.setValueAtTime(0.25, now + idx * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.2);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now + idx * 0.08);
+          osc.stop(now + idx * 0.08 + 0.25);
+        });
+      } catch (e) {}
+    }
+
+    // 결제 성공 팡파레
+    function playSuccessSound() {
+      try {
+        initAudio();
+        const now = audioCtx.currentTime;
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C E G C
+        notes.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+          gain.gain.setValueAtTime(0.3, now + idx * 0.1);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.35);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now + idx * 0.1);
+          osc.stop(now + idx * 0.1 + 0.4);
+        });
+      } catch (e) {}
+    }
+
+    // 부족/오류 경고음
+    function playBuzz() {
+      try {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(160, audioCtx.currentTime);
+        osc.frequency.linearRampToValueAtTime(110, audioCtx.currentTime + 0.2);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.2);
+      } catch (e) {}
+    }
+
+    /* ====================================================
+       2. 초기 상태 및 데이터 스토리지
+       ==================================================== */
+    const STORAGE_KEY = 'SAMDASOO_KIOSK_DATA_V1';
+
+    // 기본 시드 데이터
+    const DEFAULT_DATA = {
+      adminPin: '123456', // 초기 비밀번호: 123456
+      students: [
+        { id: 's1', nickname: '푸른물방울', pin: '1111', water: 15, joinedAt: '2026-11-23' },
+        { id: 's2', nickname: '행복한돌고래', pin: '2222', water: 25, joinedAt: '2026-11-23' },
+        { id: 's3', nickname: '별빛초코', pin: '3333', water: 8, joinedAt: '2026-11-23' },
+        { id: 's4', nickname: '맑은샘물', pin: '4444', water: 12, joinedAt: '2026-11-23' },
+      ],
+      products: [
+        { id: 'p1', name: '뽀로로 미니 비타민', category: 'SNACK', icon: '💊', price: 2, stock: 15 },
+        { id: 'p2', name: '츄파춥스 막대사탕', category: 'SNACK', icon: '🍭', price: 1, stock: 20 },
+        { id: 'p3', name: '말랑카우 밀크 2입', category: 'SNACK', icon: '🐄', price: 3, stock: 12 },
+        { id: 'p4', name: '삼다수 미니 생수', category: 'SNACK', icon: '💧', price: 2, stock: 10 },
+        { id: 'p5', name: '귀여운 동물 지우개', category: 'STATIONERY', icon: '🦔', price: 4, stock: 14 },
+        { id: 'p6', name: '부드러운 삼색 볼펜', category: 'STATIONERY', icon: '🖊️', price: 5, stock: 7 },
+        { id: 'p7', name: '반짝 형광 스티커', category: 'STATIONERY', icon: '⭐', price: 3, stock: 16 },
+        { id: 'p8', name: '🌟 하루 짝꿍 선택권', category: 'COUPON', icon: '🎟️', price: 15, stock: 3 },
+        { id: 'p9', name: '🧹 1인1역 하루 면제권', category: 'COUPON', icon: '✨', price: 20, stock: 2 },
+        { id: 'p10', name: '🍱 급식 1등 줄서기권', category: 'COUPON', icon: '🍽️', price: 10, stock: 4 },
+      ],
+      logs: [
+        { id: 'l1', studentNickname: '푸른물방울', summary: '뽀로로 미니 비타민 1개', totalWater: 2, date: '2026-11-23 09:30' }
+      ]
+    };
+
+    let appData = loadData();
+    let currentCategory = 'ALL';
+    let currentStudent = null; // 로그인된 학생 객체
+    let cart = []; // [{ product, quantity }]
+
+    // 핀 입력 버퍼
+    let studentPinBuffer = '';
+    let adminPinBuffer = '';
+    let autoLogoutTimer = null;
+
+    function loadData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed && Array.isArray(parsed.products) && parsed.products.length > 0) {
+            return parsed;
+          }
+        } catch (e) {
+          console.error('Failed to parse storage', e);
+        }
+      }
+      return JSON.parse(JSON.stringify(DEFAULT_DATA));
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+    }
+
+    /* ====================================================
+       3. 네비게이션 & UI 렌더링
+       ==================================================== */
+    function init() {
+      if (!appData || !Array.isArray(appData.products) || appData.products.length === 0) {
+        appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+        saveData();
+      }
+      renderProducts();
+      updateHeaderView();
+    }
+
+    function setCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.category-tab').forEach(btn => {
+        btn.classList.remove('bg-sky-600', 'text-white');
+        btn.classList.add('bg-white', 'text-slate-700');
+      });
+      const activeBtn = document.getElementById(`tab-${cat}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-white', 'text-slate-700');
+        activeBtn.classList.add('bg-sky-600', 'text-white');
+      }
+      renderProducts();
+      playPop();
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('product-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const filtered = (appData.products || []).filter(p => {
+        if (currentCategory === 'ALL') return true;
+        return p.category === currentCategory;
+      });
+
+      const countElem = document.getElementById('product-total-count');
+      if (countElem) countElem.innerText = filtered.length;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-16 text-center text-slate-400 font-jua text-lg">
+            진열된 상품이 없습니다 💧
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(p => {
+        const isSoldOut = p.stock <= 0;
+        const card = document.createElement('div');
+        card.className = `relative bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-4 border-2 border-amber-200 shadow-md flex flex-col justify-between transition-all transform hover:-translate-y-1 active:translate-y-0.5 ${
+          isSoldOut ? 'opacity-60 grayscale' : 'cursor-pointer hover:shadow-xl'
+        }`;
+
+        card.innerHTML = `
+          <!-- 상품 이모지 / 아이콘 -->
+          <div class="text-center py-1 sm:py-2 relative">
+            <span class="text-4xl sm:text-6xl inline-block transition transform hover:scale-110 drop-shadow">
+              ${p.icon || '🎁'}
+            </span>
+            ${isSoldOut ? `
+              <span class="absolute inset-0 flex items-center justify-center font-jua text-rose-600 text-xl sm:text-2xl font-bold rotate-[-12deg] bg-white/70 rounded-2xl border-2 border-rose-500 shadow whitespace-nowrap">
+                품 절!
+              </span>
+            ` : ''}
+          </div>
+
+          <!-- 상품명 및 가격 (모바일 줄바꿈 방지) -->
+          <div class="text-center mt-1">
+            <h4 class="font-jua text-sm sm:text-lg text-slate-800 truncate whitespace-nowrap" title="${p.name}">${p.name}</h4>
+            <div class="text-[11px] sm:text-xs text-slate-500 font-medium mb-1 whitespace-nowrap">
+              남은 수량: <strong class="${p.stock <= 3 ? 'text-rose-500 font-bold' : 'text-slate-700'}">${p.stock}개</strong>
+            </div>
+            
+            <div class="inline-flex items-center gap-1 bg-sky-100 text-sky-800 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full font-jua text-xs sm:text-base border border-sky-300 whitespace-nowrap">
+              <span>💧</span> <span>${p.price} 워터</span>
+            </div>
+          </div>
+
+          <!-- 담기 버튼 -->
+          <button onclick="addToCart('${p.id}')" ${isSoldOut ? 'disabled' : ''} 
+                  class="mt-2 sm:mt-3 w-full py-1.5 sm:py-2 ${
+                    isSoldOut ? 'bg-slate-300 text-slate-500 cursor-not-allowed' : 'bg-sky-500 hover:bg-sky-600 text-white shadow-sm'
+                  } font-jua text-xs sm:text-sm rounded-xl transition active:scale-95 flex items-center justify-center gap-1 whitespace-nowrap">
+            <span>🛒</span> <span>${isSoldOut ? '매진' : '담기'}</span>
+          </button>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function updateHeaderView() {
+      const guestView = document.getElementById('header-guest-view');
+      const studentView = document.getElementById('header-student-view');
+
+      if (currentStudent) {
+        guestView.classList.add('hidden');
+        studentView.classList.remove('hidden');
+        document.getElementById('header-student-name').innerText = currentStudent.nickname;
+        document.getElementById('header-student-water').innerText = currentStudent.water;
+        
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('header-cart-count').innerText = totalItems;
+      } else {
+        guestView.classList.remove('hidden');
+        studentView.classList.add('hidden');
+        cart = [];
+      }
+    }
+
+    function goHome() {
+      setCategory('ALL');
+    }
+
+    /* ====================================================
+       4. 학생 인증 (회원가입 & 로그인)
+       ==================================================== */
+    function openStudentRegisterModal() {
+      playPop();
+      document.getElementById('reg-nickname').value = '';
+      document.getElementById('reg-pin').value = '';
+      document.getElementById('reg-pin-confirm').value = '';
+      openModal('modal-student-register');
+    }
+
+    function handleStudentRegister(e) {
+      e.preventDefault();
+      const nickname = document.getElementById('reg-nickname').value.trim();
+      const pin = document.getElementById('reg-pin').value.trim();
+      const pinConfirm = document.getElementById('reg-pin-confirm').value.trim();
+
+      // [개인정보 필터링 간이 검사 - 이름/숫자 연관 주의 알림]
+      if (nickname.length < 2) {
+        alert('닉네임은 2자 이상으로 귀엽게 지어주세요!');
+        return;
+      }
+
+      const duplicate = appData.students.find(s => s.nickname === nickname);
+      if (duplicate) {
+        alert('이미 같은 별명을 사용하는 친구가 있어요! 다른 별명을 골라주세요.');
+        return;
+      }
+
+      if (pin.length !== 4 || !/^\d{4}$/.test(pin)) {
+        alert('비밀번호는 숫자 4자리로 입력해주세요!');
+        return;
+      }
+
+      if (pin !== pinConfirm) {
+        alert('비밀번호 확인이 일치하지 않아요. 다시 확인해주세요!');
+        return;
+      }
+
+      // 학생 계정 생성 (초기 보너스 5워터 증정)
+      const newStudent = {
+        id: 's_' + Date.now(),
+        nickname: nickname,
+        pin: pin,
+        water: 5, // 첫 가입 축하 보너스 5워터
+        joinedAt: new Date().toISOString().split('T')[0]
+      };
+
+      appData.students.push(newStudent);
+      saveData();
+      playSuccessSound();
+
+      alert(`환영해요, ${nickname}님! 삼다수반 편의점 가입 축하 보너스로 5 워터가 지급되었어요 💧`);
+      closeModal('modal-student-register');
+
+      // 바로 로그인 처리
+      loginStudentDirect(newStudent);
+    }
+
+    function openStudentLoginModal() {
+      playPop();
+      studentPinBuffer = '';
+      updatePinDots();
+      renderQuickStudents();
+      openModal('modal-student-login');
+    }
+
+    function renderQuickStudents() {
+      const container = document.getElementById('login-quick-students');
+      container.innerHTML = '';
+      
+      if (appData.students.length === 0) {
+        container.innerHTML = '<span class="text-xs text-slate-400 p-1">등록된 학생이 없습니다. "처음 왔어요"를 눌러 등록하세요.</span>';
+        return;
+      }
+
+      appData.students.forEach(s => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'px-2.5 py-1 bg-white hover:bg-sky-100 border border-slate-200 rounded-lg text-xs font-bold text-slate-700 active:scale-95 transition';
+        btn.innerText = `💧 ${s.nickname}`;
+        btn.onclick = () => {
+          document.getElementById('login-nickname').value = s.nickname;
+          playPop();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    // 가상 키패드 입력
+    function keypadPress(num) {
+      if (studentPinBuffer.length < 4) {
+        studentPinBuffer += num;
+        playPop();
+        updatePinDots();
+        if (studentPinBuffer.length === 4) {
+          // 4자리 다 채워지면 자동 로그인 시도
+          setTimeout(handleStudentLogin, 150);
+        }
+      }
+    }
+
+    function keypadClear() {
+      studentPinBuffer = '';
+      playPop();
+      updatePinDots();
+    }
+
+    function updatePinDots() {
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (i < studentPinBuffer.length) {
+          dot.classList.add('filled');
+        } else {
+          dot.classList.remove('filled');
+        }
+      }
+      document.getElementById('login-pin-count-hint').innerText = `${studentPinBuffer.length} / 4자리`;
+    }
+
+    function handleStudentLogin() {
+      const nickname = document.getElementById('login-nickname').value.trim();
+      if (!nickname) {
+        alert('닉네임을 먼저 선택하거나 입력해주세요!');
+        return;
+      }
+      if (studentPinBuffer.length !== 4) {
+        alert('비밀번호 숫자 4자리를 모두 입력해주세요!');
+        return;
+      }
+
+      const target = appData.students.find(s => s.nickname === nickname);
+      if (!target || target.pin !== studentPinBuffer) {
+        playBuzz();
+        alert('닉네임 또는 비밀번호 4자리가 맞지 않아요. 다시 확인해주세요!');
+        studentPinBuffer = '';
+        updatePinDots();
+        return;
+      }
+
+      loginStudentDirect(target);
+      closeModal('modal-student-login');
+    }
+
+    function loginStudentDirect(student) {
+      currentStudent = student;
+      cart = [];
+      updateHeaderView();
+      playSuccessSound();
+    }
+
+    function logoutStudent() {
+      if (confirm('쇼핑을 마치고 로그아웃할까요?')) {
+        currentStudent = null;
+        cart = [];
+        updateHeaderView();
+        playPop();
+      }
+    }
+
+    /* ====================================================
+       5. 장바구니 및 결제 (워터 코인 차감)
+       ==================================================== */
+    function addToCart(productId) {
+      if (!currentStudent) {
+        playBuzz();
+        alert('먼저 학생 로그인을 해주세요! 🎒');
+        openStudentLoginModal();
+        return;
+      }
+
+      const prod = appData.products.find(p => p.id === productId);
+      if (!prod || prod.stock <= 0) {
+        playBuzz();
+        alert('죄송해요, 이 상품은 품절되었어요!');
+        return;
+      }
+
+      const existing = cart.find(item => item.product.id === productId);
+      if (existing) {
+        if (existing.quantity >= prod.stock) {
+          playBuzz();
+          alert(`남은 재고(${prod.stock}개)보다 더 많이 담을 수 없어요!`);
+          return;
+        }
+        existing.quantity += 1;
+      } else {
+        cart.push({ product: prod, quantity: 1 });
+      }
+
+      playCoinSound();
+      updateHeaderView();
+      
+      // 간이 안내 토스트 느낌
+      const totalCount = cart.reduce((s, i) => s + i.quantity, 0);
+      showMiniToast(`${prod.name}을(를) 장바구니에 담았어요! 🛒`);
+    }
+
+    function openCartModal() {
+      if (!currentStudent) {
+        openStudentLoginModal();
+        return;
+      }
+      playPop();
+      renderCartItems();
+      openModal('modal-cart');
+    }
+
+    function renderCartItems() {
+      const container = document.getElementById('cart-item-list');
+      container.innerHTML = '';
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="py-12 text-center text-slate-400 font-jua">
+            장바구니가 텅 비어있어요! 💧<br>
+            <span class="text-xs">매대에서 원하는 물건을 담아보세요.</span>
+          </div>
+        `;
+      } else {
+        cart.forEach((item, idx) => {
+          const row = document.createElement('div');
+          row.className = 'bg-slate-50 border border-slate-200 rounded-2xl p-3 flex items-center justify-between';
+          row.innerHTML = `
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">${item.product.icon}</span>
+              <div>
+                <h5 class="font-jua text-slate-800 text-sm">${item.product.name}</h5>
+                <div class="text-xs text-sky-600 font-bold">개당 ${item.product.price} 워터 💧</div>
+              </div>
+            </div>
+
+            <!-- 수량 조절 버튼 -->
+            <div class="flex items-center gap-2">
+              <button onclick="changeCartQty(${idx}, -1)" class="w-7 h-7 bg-white border border-slate-300 rounded-lg text-slate-700 font-bold active:scale-95">-</button>
+              <span class="font-jua text-base w-5 text-center">${item.quantity}</span>
+              <button onclick="changeCartQty(${idx}, 1)" class="w-7 h-7 bg-white border border-slate-300 rounded-lg text-slate-700 font-bold active:scale-95">+</button>
+            </div>
+          `;
+          container.appendChild(row);
+        });
+      }
+
+      // 합계 계산
+      const totalWater = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+      const remainWater = currentStudent.water - totalWater;
+
+      document.getElementById('cart-current-water').innerText = currentStudent.water;
+      document.getElementById('cart-total-water').innerText = totalWater;
+      
+      const remainElem = document.getElementById('cart-remain-water');
+      if (remainWater < 0) {
+        remainElem.innerText = `${Math.abs(remainWater)} 워터 부족! 💧`;
+        remainElem.className = 'text-rose-600 text-sm font-jua font-bold';
+      } else {
+        remainElem.innerText = `${remainWater} 워터`;
+        remainElem.className = 'text-emerald-700 text-sm font-jua font-bold';
+      }
+    }
+
+    function changeCartQty(index, delta) {
+      const item = cart[index];
+      const newQty = item.quantity + delta;
+
+      if (newQty <= 0) {
+        cart.splice(index, 1);
+      } else {
+        if (newQty > item.product.stock) {
+          alert(`재고가 ${item.product.stock}개뿐이에요!`);
+          return;
+        }
+        item.quantity = newQty;
+      }
+
+      playPop();
+      renderCartItems();
+      updateHeaderView();
+    }
+
+    function clearCart() {
+      if (cart.length === 0) return;
+      if (confirm('장바구니를 모두 비울까요?')) {
+        cart = [];
+        playPop();
+        renderCartItems();
+        updateHeaderView();
+      }
+    }
+
+    function executePurchase() {
+      if (cart.length === 0) {
+        alert('장바구니에 상품을 먼저 담아주세요!');
+        return;
+      }
+
+      const totalWater = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+      
+      // 잔액 검사
+      if (currentStudent.water < totalWater) {
+        playBuzz();
+        const diff = totalWater - currentStudent.water;
+        alert(`워터가 ${diff}개 부족해요! 💧\n선생님께 칭찬 스탬프를 받아 워터를 더 모아보세요.`);
+        return;
+      }
+
+      // 최종 구매 확인
+      if (!confirm(`총 ${totalWater} 워터를 사용하여 구매할까요?`)) {
+        return;
+      }
+
+      // 1. 학생 워터 차감
+      currentStudent.water -= totalWater;
+
+      // 2. 상품 재고 차감 & 로그 기록 생성
+      const purchasedSummary = [];
+      cart.forEach(item => {
+        const prod = appData.products.find(p => p.id === item.product.id);
+        if (prod) {
+          prod.stock = Math.max(0, prod.stock - item.quantity);
+        }
+        purchasedSummary.push(`${item.product.name} x ${item.quantity}`);
+      });
+
+      // 3. 결제 로그 저장
+      const nowStr = new Date().toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+      appData.logs.unshift({
+        id: 'log_' + Date.now(),
+        studentNickname: currentStudent.nickname,
+        summary: purchasedSummary.join(', '),
+        totalWater: totalWater,
+        date: nowStr
+      });
+
+      // 영수증 모달 데이터 세팅
+      showReceiptModal(purchasedSummary, totalWater);
+
+      // 데이터 영구 저장 & 화면 갱신
+      saveData();
+      renderProducts();
+      updateHeaderView();
+
+      closeModal('modal-cart');
+      cart = [];
+    }
+
+    function showReceiptModal(purchasedSummary, totalWater) {
+      document.getElementById('receipt-student-name').innerText = currentStudent.nickname;
+      
+      const now = new Date();
+      const dateFormatted = `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      document.getElementById('receipt-datetime').innerText = dateFormatted;
+      
+      document.getElementById('receipt-used-water').innerText = `-${totalWater} 💧`;
+      document.getElementById('receipt-remain-water').innerText = `${currentStudent.water} 💧`;
+
+      // 영수증 고유 번호 설정
+      const randNo = String(Math.floor(Math.random() * 9000) + 1000);
+      const todayStr = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+      const orderElem = document.getElementById('receipt-order-no');
+      if (orderElem) {
+        orderElem.innerText = `SAMDA-${todayStr}-${randNo}`;
+      }
+
+      // 저장 버튼 상태 초기화 (모바일 한 줄 맞춤)
+      const btnText = document.getElementById('save-receipt-btn-text');
+      if (btnText) btnText.innerText = '영수증 사진 저장 (갤러리)';
+
+      const notice = document.getElementById('receipt-timer-notice');
+      if (notice) {
+        notice.innerHTML = '<span id="receipt-countdown" class="font-bold text-sky-600">10</span>초 후 자동으로 홈으로 이동합니다. <span class="block text-[9px] sm:text-[10px] text-slate-400 whitespace-nowrap">(사진 저장을 누르면 자동으로 멈춰요)</span>';
+      }
+
+      const itemsContainer = document.getElementById('receipt-items');
+      itemsContainer.innerHTML = '';
+      purchasedSummary.forEach(itemText => {
+        const div = document.createElement('div');
+        div.className = 'flex justify-between items-center text-slate-700 font-bold';
+        div.innerHTML = `
+          <span>• ${itemText}</span>
+          <span class="text-sky-600 font-mono text-[11px] bg-sky-50 px-1.5 py-0.5 rounded">확인 완료</span>
+        `;
+        itemsContainer.appendChild(div);
+      });
+
+      openModal('modal-receipt');
+      playSuccessSound();
+      launchConfetti();
+
+      // 자동 로그아웃 10초 타이머
+      let timeLeft = 10;
+      const countdownElem = document.getElementById('receipt-countdown');
+      if (countdownElem) countdownElem.innerText = timeLeft;
+
+      if (autoLogoutTimer) clearInterval(autoLogoutTimer);
+      autoLogoutTimer = setInterval(() => {
+        timeLeft--;
+        const curCountdown = document.getElementById('receipt-countdown');
+        if (curCountdown) curCountdown.innerText = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(autoLogoutTimer);
+          autoLogoutTimer = null;
+          finishReceipt();
+        }
+      }, 1000);
+    }
+
+    /* 영수증 사진(이미지) 갤러리 및 로컬 다운로드 저장 */
+    async function saveReceiptImage() {
+      // 1. 사진 저장을 시도하면 10초 자동 닫힘 타이머를 즉시 중지 (학생이 당황하지 않게)
+      if (autoLogoutTimer) {
+        clearInterval(autoLogoutTimer);
+        autoLogoutTimer = null;
+        const notice = document.getElementById('receipt-timer-notice');
+        if (notice) {
+          notice.innerHTML = '<span class="text-emerald-600 font-bold whitespace-nowrap">✨ 사진 저장을 위해 자동 이동이 정지되었습니다.</span>';
+        }
+      }
+
+      const receiptArea = document.getElementById('receipt-capture-area');
+      const btn = document.getElementById('btn-save-receipt-img');
+      const btnText = document.getElementById('save-receipt-btn-text');
+
+      if (!receiptArea) return;
+
+      const originalText = btnText ? btnText.innerText : '영수증 사진 저장 (갤러리)';
+      if (btnText) btnText.innerText = '사진 만드는 중... ⏳';
+      if (btn) btn.disabled = true;
+
+      try {
+        // html2canvas로 선명하고 깨끗하게 3배 고해상도 캡처
+        const canvas = await html2canvas(receiptArea, {
+          scale: 3,
+          backgroundColor: '#ffffff',
+          useCORS: true,
+          logging: false
+        });
+
+        const studentName = currentStudent ? currentStudent.nickname : '학생';
+        const now = new Date();
+        const dateStr = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`;
+        const fileName = `삼다수반_영수증_${studentName}_${dateStr}.png`;
+
+        // Blob 데이터 생성
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+        
+        // [A] 태블릿 및 모바일 브라우저 (iOS/Android): Web Share API로 기기 갤러리/사진첩에 직접 저장 지원
+        let sharedSuccessfully = false;
+        if (navigator.canShare && blob) {
+          try {
+            const file = new File([blob], fileName, { type: 'image/png' });
+            if (navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                title: '삼다수반 편의점 영수증 💧',
+                text: `${studentName} 학생의 편의점 구매 영수증 사진입니다!`,
+                files: [file]
+              });
+              sharedSuccessfully = true;
+              playSuccessSound();
+              showMiniToast('영수증 사진이 저장/공유되었습니다! 📸');
+            }
+          } catch (shareErr) {
+            if (shareErr.name === 'AbortError') {
+              // 사용자가 시스템 공유창을 닫은 경우
+              sharedSuccessfully = true;
+            } else {
+              console.warn('Web Share failed, fallback to standard download', shareErr);
+            }
+          }
+        }
+
+        // [B] PC 브라우저 및 Share 미지원 환경: 일반 파일 다운로드 트리거
+        if (!sharedSuccessfully) {
+          const downloadUrl = canvas.toDataURL('image/png');
+          const a = document.createElement('a');
+          a.href = downloadUrl;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+
+          playSuccessSound();
+          showMiniToast('영수증 사진이 다운로드되었습니다! (갤러리/다운로드 폴더 확인) 📸');
+        }
+
+        if (btnText) btnText.innerText = '사진 저장 완료! ✨';
+      } catch (err) {
+        console.error('영수증 이미지 저장 오류:', err);
+        playBuzz();
+        alert('영수증 사진을 만드는 중 오류가 발생했습니다. 브라우저 설정을 확인해주세요.');
+        if (btnText) btnText.innerText = originalText;
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    function finishReceipt() {
+      if (autoLogoutTimer) {
+        clearInterval(autoLogoutTimer);
+        autoLogoutTimer = null;
+      }
+      closeModal('modal-receipt');
+      currentStudent = null;
+      cart = [];
+      updateHeaderView();
+      playPop();
+    }
+
+    /* ====================================================
+       6. 관리자 모드 (담임교사용)
+       ==================================================== */
+    function openAdminAuthModal() {
+      playPop();
+      adminPinBuffer = '';
+      updateAdminDots();
+      openModal('modal-admin-auth');
+    }
+
+    function adminKeypadPress(num) {
+      if (adminPinBuffer.length < 6) {
+        adminPinBuffer += num;
+        playPop();
+        updateAdminDots();
+        if (adminPinBuffer.length === 6) {
+          setTimeout(handleAdminLogin, 150);
+        }
+      }
+    }
+
+    function adminKeypadClear() {
+      adminPinBuffer = '';
+      playPop();
+      updateAdminDots();
+    }
+
+    function updateAdminDots() {
+      for (let i = 0; i < 6; i++) {
+        const dot = document.getElementById(`admin-dot-${i}`);
+        if (i < adminPinBuffer.length) {
+          dot.classList.add('filled');
+        } else {
+          dot.classList.remove('filled');
+        }
+      }
+    }
+
+    function handleAdminLogin() {
+      if (adminPinBuffer.length !== 6) {
+        alert('관리자 비밀번호 6자리를 모두 입력해주세요!');
+        return;
+      }
+
+      if (adminPinBuffer === appData.adminPin) {
+        playSuccessSound();
+        closeModal('modal-admin-auth');
+        openAdminDashboard();
+      } else {
+        playBuzz();
+        alert('관리자 비밀번호가 일치하지 않습니다!');
+        adminPinBuffer = '';
+        updateAdminDots();
+      }
+    }
+
+    function openAdminDashboard() {
+      setAdminTab('products');
+      openModal('modal-admin-dashboard');
+    }
+
+    function setAdminTab(tabName) {
+      document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-sky-800', 'shadow-sm', 'border', 'border-slate-200');
+        btn.classList.add('bg-slate-200', 'text-slate-700');
+      });
+      document.querySelectorAll('.admin-tab-content').forEach(content => {
+        content.classList.add('hidden');
+      });
+
+      const activeBtn = document.getElementById(`admin-tab-btn-${tabName}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-slate-200', 'text-slate-700');
+        activeBtn.classList.add('bg-white', 'text-sky-800', 'shadow-sm', 'border', 'border-slate-200');
+      }
+
+      const activeContent = document.getElementById(`admin-tab-${tabName}`);
+      if (activeContent) activeContent.classList.remove('hidden');
+
+      if (tabName === 'products') renderAdminProducts();
+      if (tabName === 'students') renderAdminStudents();
+      if (tabName === 'logs') renderAdminLogs();
+    }
+
+    // 관리자: 상품 테이블 렌더링
+    function renderAdminProducts() {
+      const tbody = document.getElementById('admin-product-table-body');
+      tbody.innerHTML = '';
+
+      appData.products.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="p-3 flex items-center gap-2">
+            <span class="text-2xl">${p.icon}</span>
+            <span class="font-bold text-slate-800">${p.name}</span>
+          </td>
+          <td class="p-3 text-slate-500 font-semibold">
+            ${p.category === 'SNACK' ? '간식 🍬' : p.category === 'STATIONERY' ? '학용품 ✏️' : '특별쿠폰 🎫'}
+          </td>
+          <td class="p-3 font-bold text-sky-700">${p.price} 워터</td>
+          <td class="p-3">
+            <input type="number" min="0" value="${p.stock}" onchange="updateStockDirect('${p.id}', this.value)" 
+                   class="w-16 px-2 py-1 border rounded-lg text-center font-bold text-slate-800">
+          </td>
+          <td class="p-3">
+            <span class="px-2 py-1 rounded-full text-xs font-bold ${p.stock > 0 ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">
+              ${p.stock > 0 ? '판매중' : '품절'}
+            </span>
+          </td>
+          <td class="p-3 text-right space-x-1">
+            <button onclick="openProductEditModal('${p.id}')" class="px-2.5 py-1 bg-sky-100 text-sky-700 rounded-lg hover:bg-sky-200 font-bold text-xs">수정</button>
+            <button onclick="deleteProduct('${p.id}')" class="px-2.5 py-1 bg-rose-100 text-rose-700 rounded-lg hover:bg-rose-200 font-bold text-xs">삭제</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateStockDirect(productId, newStock) {
+      const prod = appData.products.find(p => p.id === productId);
+      if (prod) {
+        prod.stock = Math.max(0, parseInt(newStock) || 0);
+        saveData();
+        renderProducts();
+        renderAdminProducts();
+      }
+    }
+
+    function openProductEditModal(productId) {
+      if (productId) {
+        const prod = appData.products.find(p => p.id === productId);
+        document.getElementById('product-modal-title').innerText = '상품 수정';
+        document.getElementById('edit-prod-id').value = prod.id;
+        document.getElementById('edit-prod-name').value = prod.name;
+        document.getElementById('edit-prod-category').value = prod.category;
+        document.getElementById('edit-prod-icon').value = prod.icon;
+        document.getElementById('edit-prod-price').value = prod.price;
+        document.getElementById('edit-prod-stock').value = prod.stock;
+      } else {
+        document.getElementById('product-modal-title').innerText = '새 상품 등록';
+        document.getElementById('edit-prod-id').value = '';
+        document.getElementById('edit-prod-name').value = '';
+        document.getElementById('edit-prod-category').value = 'SNACK';
+        document.getElementById('edit-prod-icon').value = '🎁';
+        document.getElementById('edit-prod-price').value = '3';
+        document.getElementById('edit-prod-stock').value = '10';
+      }
+      openModal('modal-product-edit');
+    }
+
+    function handleProductSave(e) {
+      e.preventDefault();
+      const id = document.getElementById('edit-prod-id').value;
+      const name = document.getElementById('edit-prod-name').value.trim();
+      const category = document.getElementById('edit-prod-category').value;
+      const icon = document.getElementById('edit-prod-icon').value.trim() || '🎁';
+      const price = parseInt(document.getElementById('edit-prod-price').value) || 1;
+      const stock = parseInt(document.getElementById('edit-prod-stock').value) || 0;
+
+      if (id) {
+        const prod = appData.products.find(p => p.id === id);
+        if (prod) {
+          prod.name = name;
+          prod.category = category;
+          prod.icon = icon;
+          prod.price = price;
+          prod.stock = stock;
+        }
+      } else {
+        appData.products.push({
+          id: 'p_' + Date.now(),
+          name, category, icon, price, stock
+        });
+      }
+
+      saveData();
+      renderProducts();
+      renderAdminProducts();
+      closeModal('modal-product-edit');
+      playSuccessSound();
+    }
+
+    function deleteProduct(productId) {
+      if (confirm('정말 이 상품을 삭제하시겠습니까?')) {
+        appData.products = appData.products.filter(p => p.id !== productId);
+        saveData();
+        renderProducts();
+        renderAdminProducts();
+      }
+    }
+
+    // 관리자: 학생 명부 및 워터 관리
+    function renderAdminStudents() {
+      const tbody = document.getElementById('admin-student-table-body');
+      tbody.innerHTML = '';
+
+      if (appData.students.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-400">등록된 학생이 없습니다.</td></tr>';
+        return;
+      }
+
+      appData.students.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="p-3">
+            <span class="font-bold text-slate-800 text-sm">💧 ${s.nickname}</span>
+            <div class="text-[11px] text-slate-400">가입: ${s.joinedAt || '-'}</div>
+          </td>
+          <td class="p-3">
+            <span class="font-jua text-base text-sky-700">${s.water} 워터</span>
+          </td>
+          <td class="p-3 space-x-1">
+            <button onclick="modifyStudentWater('${s.id}', 1)" class="px-2 py-1 bg-sky-100 hover:bg-sky-200 text-sky-800 rounded font-bold text-xs">+1</button>
+            <button onclick="modifyStudentWater('${s.id}', 5)" class="px-2 py-1 bg-sky-100 hover:bg-sky-200 text-sky-800 rounded font-bold text-xs">+5</button>
+            <button onclick="modifyStudentWater('${s.id}', 10)" class="px-2 py-1 bg-sky-100 hover:bg-sky-200 text-sky-800 rounded font-bold text-xs">+10</button>
+            <button onclick="modifyStudentWater('${s.id}', -1)" class="px-2 py-1 bg-rose-100 hover:bg-rose-200 text-rose-700 rounded font-bold text-xs">-1</button>
+            <button onclick="promptCustomWater('${s.id}')" class="px-2 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded font-bold text-xs">직접입력</button>
+          </td>
+          <td class="p-3">
+            <button onclick="resetStudentPin('${s.id}')" class="px-2.5 py-1 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-lg font-bold text-xs">
+              PIN 재설정
+            </button>
+          </td>
+          <td class="p-3 text-right space-x-1">
+            <button onclick="editStudentNickname('${s.id}')" class="px-2.5 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg font-bold text-xs">수정</button>
+            <button onclick="deleteStudent('${s.id}')" class="px-2.5 py-1 bg-rose-100 hover:bg-rose-200 text-rose-700 rounded-lg font-bold text-xs">삭제</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function modifyStudentWater(studentId, delta) {
+      const student = appData.students.find(s => s.id === studentId);
+      if (student) {
+        student.water = Math.max(0, student.water + delta);
+        saveData();
+        renderAdminStudents();
+        updateHeaderView();
+        playCoinSound();
+      }
+    }
+
+    function promptCustomWater(studentId) {
+      const student = appData.students.find(s => s.id === studentId);
+      if (!student) return;
+      const input = prompt(`[${student.nickname}] 학생에게 지급/차감할 워터 수량을 입력하세요:\n(예: +10 또는 -5)`, '+5');
+      if (input !== null) {
+        const val = parseInt(input);
+        if (!isNaN(val)) {
+          student.water = Math.max(0, student.water + val);
+          saveData();
+          renderAdminStudents();
+          updateHeaderView();
+          playCoinSound();
+        }
+      }
+    }
+
+    function promptBatchWaterReward() {
+      const input = prompt('학급 전원에게 일괄 지급할 워터 코인 수량을 입력하세요:\n(예: 3)', '3');
+      if (input !== null) {
+        const amount = parseInt(input);
+        if (!isNaN(amount) && amount > 0) {
+          appData.students.forEach(s => {
+            s.water += amount;
+          });
+          saveData();
+          renderAdminStudents();
+          updateHeaderView();
+          playSuccessSound();
+          alert(`전체 학생(${appData.students.length}명)에게 각각 ${amount} 워터가 지급되었습니다! 💧✨`);
+        }
+      }
+    }
+
+    function resetStudentPin(studentId) {
+      const student = appData.students.find(s => s.id === studentId);
+      if (!student) return;
+      const newPin = prompt(`[${student.nickname}] 학생의 새 4자리 비밀번호를 입력하세요:`, '0000');
+      if (newPin !== null) {
+        if (/^\d{4}$/.test(newPin)) {
+          student.pin = newPin;
+          saveData();
+          alert(`비밀번호가 [${newPin}] (으)로 재설정되었습니다.`);
+        } else {
+          alert('비밀번호는 반드시 숫자 4자리여야 합니다.');
+        }
+      }
+    }
+
+    function editStudentNickname(studentId) {
+      const student = appData.students.find(s => s.id === studentId);
+      if (!student) return;
+      const newNick = prompt(`수정할 닉네임을 입력하세요:`, student.nickname);
+      if (newNick && newNick.trim() !== '') {
+        student.nickname = newNick.trim();
+        saveData();
+        renderAdminStudents();
+        updateHeaderView();
+      }
+    }
+
+    function deleteStudent(studentId) {
+      const student = appData.students.find(s => s.id === studentId);
+      if (confirm(`정말 [${student.nickname}] 학생 계정을 영구 삭제하시겠습니까?`)) {
+        appData.students = appData.students.filter(s => s.id !== studentId);
+        if (currentStudent && currentStudent.id === studentId) {
+          currentStudent = null;
+          updateHeaderView();
+        }
+        saveData();
+        renderAdminStudents();
+      }
+    }
+
+    // 관리자: 결제 로그 목록
+    function renderAdminLogs() {
+      const list = document.getElementById('admin-log-list');
+      list.innerHTML = '';
+
+      if (!appData.logs || appData.logs.length === 0) {
+        list.innerHTML = '<div class="p-6 text-center text-slate-400">결제 기록이 없습니다.</div>';
+        return;
+      }
+
+      appData.logs.forEach(log => {
+        const item = document.createElement('div');
+        item.className = 'p-3 flex justify-between items-center hover:bg-slate-50';
+        item.innerHTML = `
+          <div>
+            <div class="font-bold text-slate-800">💧 ${log.studentNickname}</div>
+            <div class="text-xs text-slate-500">${log.summary}</div>
+          </div>
+          <div class="text-right">
+            <div class="font-jua text-sm text-rose-600">-${log.totalWater} 워터</div>
+            <div class="text-[10px] text-slate-400">${log.date}</div>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function clearLogs() {
+      if (confirm('모든 결제 기록을 삭제하시겠습니까?')) {
+        appData.logs = [];
+        saveData();
+        renderAdminLogs();
+      }
+    }
+
+    // 관리자: 비밀번호 변경
+    function handleAdminPasswordChange(e) {
+      e.preventDefault();
+      const current = document.getElementById('admin-pwd-current').value;
+      const newPwd = document.getElementById('admin-pwd-new').value;
+
+      if (current !== appData.adminPin) {
+        alert('현재 관리자 비밀번호가 올바르지 않습니다.');
+        return;
+      }
+
+      if (!/^\d{6}$/.test(newPwd)) {
+        alert('새 관리자 비밀번호는 숫자 6자리로 입력해주세요.');
+        return;
+      }
+
+      appData.adminPin = newPwd;
+      saveData();
+      alert('관리자 비밀번호가 성공적으로 변경되었습니다!');
+      document.getElementById('admin-pwd-current').value = '';
+      document.getElementById('admin-pwd-new').value = '';
+    }
+
+    // 데이터 JSON 내보내기/불러오기
+    function exportDataJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `삼다수반_편의점_백업_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function importDataJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        try {
+          const parsed = JSON.parse(event.target.result);
+          if (parsed.products && parsed.students) {
+            appData = parsed;
+            saveData();
+            renderProducts();
+            setAdminTab('products');
+            alert('데이터 백업 파일이 성공적으로 복원되었습니다!');
+          } else {
+            alert('올바르지 않은 백업 파일 형식입니다.');
+          }
+        } catch (err) {
+          alert('JSON 파일을 읽는 중 오류가 발생했습니다.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetToInitialData() {
+      if (confirm('경고: 모든 학생 데이터, 코인, 상품이 초기 데모 상태로 초기화됩니다. 계속할까요?')) {
+        appData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+        saveData();
+        renderProducts();
+        setAdminTab('products');
+        updateHeaderView();
+        alert('초기 데모 데이터로 복원되었습니다.');
+      }
+    }
+
+    /* ====================================================
+       7. 모달 공통 헬퍼 & 폭죽 애니메이션
+       ==================================================== */
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.remove('hidden');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.add('hidden');
+    }
+
+    function showMiniToast(msg) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-6 right-6 z-50 bg-slate-800 text-white font-jua text-sm px-4 py-2.5 rounded-2xl shadow-2xl flex items-center gap-2 transform transition-all duration-300 translate-y-8 opacity-0';
+      toast.innerHTML = `<span>💧</span> ${msg}`;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-8', 'opacity-0');
+      }, 50);
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-8', 'opacity-0');
+        setTimeout(() => toast.remove(), 350);
+      }, 2000);
+    }
+
+    // Canvas Confetti
+    function launchConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.parentElement.offsetWidth;
+      canvas.height = canvas.parentElement.offsetHeight;
+
+      const particles = [];
+      const colors = ['#38bdf8', '#0284c7', '#34d399', '#f59e0b', '#ec4899', '#a855f7'];
+
+      for (let i = 0; i < 60; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 3,
+          vx: (Math.random() - 0.5) * 8,
+          vy: (Math.random() - 0.7) * 9,
+          size: Math.random() * 6 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          gravity: 0.2,
+          alpha: 1
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let active = false;
+
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += p.gravity;
+          p.alpha -= 0.015;
+
+          if (p.alpha > 0) {
+            active = true;
+            ctx.save();
+            ctx.globalAlpha = p.alpha;
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          }
+        });
+
+        if (active) requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+    }
+
+    // 페이지 로드 시 즉시 초기화 (DOMContentLoaded 이미 완료된 경우도 즉각 대응)
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
+</body>
+</html>
